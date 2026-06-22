@@ -33,6 +33,28 @@
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #4CAF50; color: white; }
         tr:nth-child(even) { background-color: #f2f2f2; }
+        body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; }
+    .filter-container { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+    input, select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+    #searchInput { width: 200px; }
+    #seriesFilter { width: 150px; }
+    table { border-collapse: collapse; width: 100%; max-width: 800px; background: white; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+    th { background-color: #4CAF50; color: white; }
+    
+    /* 系列對應的顏色 (淡色系) */
+    .bg-林地 { background-color: #e8f5e9; }
+    .bg-森林湖 { background-color: #e3f2fd; }
+    .bg-草甸 { background-color: #fff3e0; }
+    .bg-高山 { background-color: #f3e5f5; }
+    .bg-洞穴 { background-color: #eceff1; }
+    .bg-長鬚 { background-color: #efebe9; }
+    .bg-熱帶 { background-color: #fff9c4; }
+    .bg-王者 { background-color: #ffebee; }
+    .bg-華麗 { background-color: #fce4ec; }
+    .bg-同伴 { background-color: #e0f2f1; }
+    .bg-星座 { background-color: #ede7f6; }
+    .bg-民間傳說 { background-color: #fbe9e7; }
     </style>
 </head>
 <body>
@@ -133,6 +155,41 @@
     </table>
 
     <script>
+        // 網頁載入後自動執行，為每一行添加顏色 Class
+    window.onload = function() {
+        let table = document.getElementById("dragonTable");
+        let tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            let seriesTd = tr[i].getElementsByTagName("td")[1];
+            if (seriesTd) {
+                let seriesName = seriesTd.innerText.trim();
+                tr[i].classList.add("bg-" + seriesName);
+            }
+        }
+    };
+
+    function filterTable() {
+        let searchInput = document.getElementById("searchInput").value.toUpperCase();
+        let seriesFilter = document.getElementById("seriesFilter").value;
+        let table = document.getElementById("dragonTable");
+        let tr = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < tr.length; i++) {
+            let tdName = tr[i].getElementsByTagName("td")[0];
+            let tdSeries = tr[i].getElementsByTagName("td")[1];
+
+            if (tdName && tdSeries) {
+                let nameMatch = tdName.innerText.toUpperCase().indexOf(searchInput) > -1;
+                let seriesMatch = (seriesFilter === "") || (tdSeries.innerText === seriesFilter);
+
+                if (nameMatch && seriesMatch) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
         function filterTable() {
             // 獲取搜尋框的值
             let searchInput = document.getElementById("searchInput").value.toUpperCase();
