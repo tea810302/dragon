@@ -1,0 +1,37 @@
+<script>
+    // 網頁載入後自動執行，為每一行添加顏色 Class
+    window.onload = function() {
+        let table = document.getElementById("dragonTable");
+        let tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+            let seriesTd = tr[i].getElementsByTagName("td")[1];
+            if (seriesTd) {
+                let seriesName = seriesTd.innerText.trim();
+                tr[i].classList.add("bg-" + seriesName);
+            }
+        }
+    };
+
+    function filterTable() {
+        let searchInput = document.getElementById("searchInput").value.toUpperCase();
+        let seriesFilter = document.getElementById("seriesFilter").value;
+        let table = document.getElementById("dragonTable");
+        let tr = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < tr.length; i++) {
+            let tdName = tr[i].getElementsByTagName("td")[0];
+            let tdSeries = tr[i].getElementsByTagName("td")[1];
+
+            if (tdName && tdSeries) {
+                let nameMatch = tdName.innerText.toUpperCase().indexOf(searchInput) > -1;
+                let seriesMatch = (seriesFilter === "") || (tdSeries.innerText === seriesFilter);
+
+                if (nameMatch && seriesMatch) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
