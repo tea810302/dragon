@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靈龍谷召喚查詢</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; }
+        /* 篩選區域容器 */
+        .filter-container {
+            display: flex;
+            gap: 10px; /* 框之間的距離 */
+            margin-bottom: 20px; /* 與表格的距離 */
+            align-items: center; /* 垂直居中 */
+        }
+        /* 搜尋框和下拉選單的通用樣式 */
+        input, select {
+            padding: 8px 12px; /* 縮小內邊距 */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px; /* 字體稍微調小 */
+            box-sizing: border-box; /* 確保 padding 不影響總寬度 */
+        }
+        /* 搜尋框專用樣式 */
+        #searchInput {
+            width: 200px; /* 固定較小的寬度 */
+        }
+        /* 下拉選單專用樣式 */
+        #seriesFilter {
+            width: 150px; /* 固定適中的寬度 */
+        }
+        table { border-collapse: collapse; width: 100%; max-width: 800px; background: white; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+    <h2>🐉 靈龍谷召喚資料查詢</h2>
+
+    <div class="filter-container">
+        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="🔍 搜尋龍名...">
+        
+        <select id="seriesFilter" onchange="filterTable()">
+            <option value="">所有系列</option>
+            <option value="林地">林地</option>
+            <option value="森林湖">森林湖</option>
+            <option value="草甸">草甸</option>
+            <option value="高山">高山</option>
+            <option value="洞穴">洞穴</option>
+            <option value="長鬚">長鬚</option>
+            <option value="熱帶">熱帶</option>
+            <option value="王者">王者</option>
+            <option value="華麗">華麗</option>
+            <option value="同伴">同伴</option>
+            <option value="星座">星座</option>
+            <option value="民間傳說">民間傳說</option>
+        </select>
+    </div>
+
+    <table id="dragonTable">
+        <thead>
+            <tr>
+                <th>龍名</th>
+                <th>系列</th>
+                <th>稀有度</th>
+                <th>精華</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>普通岩尾龍</td><td>林地</td><td>普通</td><td>土</td></tr>
+            <tr><td>木笛龍</td><td>林地</td><td>普通</td><td>風</td></tr>
+            <tr><td>柔足龍</td><td>林地</td><td>特殊</td><td>土</td></tr>
+            <tr><td>緋紅松翼龍</td><td>林地</td><td>特殊</td><td>風</td></tr>
+            <tr><td>日綻龍</td><td>森林湖</td><td>普通</td><td>土</td></tr>
+            <tr><td>條紋浮鏢龍</td><td>森林湖</td><td>普通</td><td>風</td></tr>
+            <tr><td>蘆葦焰鰭龍</td><td>森林湖</td><td>特殊</td><td>水</td></tr>
+            <tr><td>湖刃龍</td><td>森林湖</td><td>稀有</td><td>水</td></tr>
+            <tr><td>灰馳龍</td><td>草甸</td><td>普通</td><td>土</td></tr>
+            <tr><td>鉤尾藍芽龍</td><td>草甸</td><td>特殊</td><td>土</td></tr>
+            <tr><td>巨型草甸龍</td><td>草甸</td><td>稀有</td><td>土</td></tr>
+            <tr><td>頸角龍</td><td>高山</td><td>普通</td><td>土</td></tr>
+            <tr><td>帝王獵翼龍</td><td>高山</td><td>普通</td><td>風</td></tr>
+            <tr><td>斑紋胖菇龍</td><td>高山</td><td>特殊</td><td>土</td></tr>
+            <tr><td>高山天使龍</td><td>高山</td><td>稀有</td><td>土</td></tr>
+            <tr><td>粼光鰭龍</td><td>高山</td><td>史詩</td><td>水</td></tr>
+            <tr><td>藍寶石飛翼龍</td><td>高山</td><td>傳說</td><td>風</td></tr>
+            <tr><td>夜齒龍</td><td>洞穴</td><td>普通</td><td>風</td></tr>
+            <tr><td>洞穴鼓尾龍</td><td>洞穴</td><td>特殊</td><td>水</td></tr>
+            <tr><td>珍珠盔甲背龍</td><td>洞穴</td><td>特殊</td><td>土</td></tr>
+            <tr><td>炫冠龍</td><td>洞穴</td><td>稀有</td><td>土</td></tr>
+            <tr><td>水怪龍</td><td>洞穴</td><td>史詩</td><td>水</td></tr>
+            <tr><td>墨鬚龍</td><td>長鬚</td><td>特殊</td><td>土</td></tr>
+            <tr><td>灰燼鬚龍</td><td>長鬚</td><td>稀有</td><td>土</td></tr>
+            <tr><td>斑點鬚龍</td><td>長鬚</td><td>史詩</td><td>土</td></tr>
+            <tr><td>暮鬃龍</td><td>熱帶</td><td>普通</td><td>土</td></tr>
+            <tr><td>雙趾焰鱗龍</td><td>熱帶</td><td>特殊</td><td>水</td></tr>
+            <tr><td>日啼龍</td><td>熱帶</td><td>特殊</td><td>風</td></tr>
+            <tr><td>變色眉角龍</td><td>熱帶</td><td>稀有</td><td>土</td></tr>
+            <tr><td>巨型枝背脊龍</td><td>熱帶</td><td>史詩</td><td>水</td></tr>
+            <tr><td>靈爪龍</td><td>王者</td><td>普通</td><td>土</td></tr>
+            <tr><td>湖蛇形龍</td><td>王者</td><td>特殊</td><td>水</td></tr>
+            <tr><td>幽靈雙翼龍</td><td>王者</td><td>稀有</td><td>風</td></tr>
+            <tr><td>鐵爪盾翼龍</td><td>王者</td><td>史詩</td><td>土</td></tr>
+            <tr><td>古老盤根龍</td><td>王者</td><td>傳說</td><td>土</td></tr>
+            <tr><td>嘶嘶花龍</td><td>華麗</td><td>特殊</td><td>土</td></tr>
+            <tr><td>翡翠鳥尾龍</td><td>華麗</td><td>稀有</td><td>風</td></tr>
+            <tr><td>條紋流鰭龍</td><td>華麗</td><td>史詩</td><td>水</td></tr>
+            <tr><td>旋飛龍</td><td>華麗</td><td>傳說</td><td>土</td></tr>
+            <tr><td>泥憨龍</td><td>同伴</td><td>特殊</td><td>土</td></tr>
+            <tr><td>蔚藍鰭翼龍</td><td>同伴</td><td>稀有</td><td>水</td></tr>
+            <tr><td>待確認</td><td>同伴</td><td>史詩</td><td>水</td></tr>
+            <tr><td>待確認</td><td>同伴</td><td>傳說</td><td>土</td></tr>
+            <tr><td>摩羯座</td><td>星座</td><td>史詩</td><td>土</td></tr>
+            <tr><td>水瓶座</td><td>星座</td><td>史詩</td><td>水</td></tr>
+            <tr><td>星尾翼雙魚龍</td><td>星座</td><td>史詩</td><td>水</td></tr>
+            <tr><td>星眼白羊龍</td><td>星座</td><td>史詩</td><td>土</td></tr>
+            <tr><td>月碎片金牛龍</td><td>星座</td><td>史詩</td><td>土</td></tr>
+            <tr><td>雲翼雙子龍</td><td>星座</td><td>史詩</td><td>風</td></tr>
+            <tr><td>暮爪巨蟹龍</td><td>星座</td><td>史詩</td><td>水</td></tr>
+            <tr><td>獅子座</td><td>星座</td><td>史詩</td><td>土</td></tr>
+            <tr><td>處女座</td><td>星座</td><td>史詩</td><td>土</td></tr>
+            <tr><td>天秤座</td><td>星座</td><td>史詩</td><td>風</td></tr>
+            <tr><td>天蠍座</td><td>星座</td><td>史詩</td><td>土</td></tr>
+            <tr><td>射手座</td><td>星座</td><td>史詩</td><td>土</td></tr>
+            <tr><td>凝視黑影龍</td><td>民間傳說</td><td>史詩</td><td>土</td></tr>
+            <tr><td>光狼龍</td><td>民間傳說</td><td>史詩</td><td>土</td></tr>
+            <tr><td>空裔龍</td><td>民間傳說</td><td>史詩</td><td>土</td></tr>
+            <tr><td>古爪龍</td><td>民間傳說</td><td>傳說</td><td>風</td></tr>
+            <tr><td>霧舞龍</td><td>民間傳說</td><td>傳說</td><td>水</td></tr>
+        </tbody>
+    </table>
+
+    <script>
+        function filterTable() {
+            // 獲取搜尋框的值
+            let searchInput = document.getElementById("searchInput").value.toUpperCase();
+            // 獲取下拉選單的值
+            let seriesFilter = document.getElementById("seriesFilter").value;
+            
+            let table = document.getElementById("dragonTable");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                // 獲取龍名（第一列）
+                let tdName = tr[i].getElementsByTagName("td")[0];
+                // 獲取系列（第二列）
+                let tdSeries = tr[i].getElementsByTagName("td")[1];
+
+                if (tdName && tdSeries) {
+                    let nameText = tdName.textContent || tdName.innerText;
+                    let seriesText = tdSeries.textContent || tdSeries.innerText;
+
+                    // 判斷是否符合搜尋關鍵字
+                    let nameMatch = nameText.toUpperCase().indexOf(searchInput) > -1;
+                    // 判斷是否符合下拉選單選擇（如果選單為空，視為符合）
+                    let seriesMatch = (seriesFilter === "") || (seriesText === seriesFilter);
+
+                    // 同時符合兩個條件才顯示
+                    if (nameMatch && seriesMatch) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
